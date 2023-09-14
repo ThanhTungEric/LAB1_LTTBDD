@@ -1,14 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script defer src="./index.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <button id="btn">Again</button>
+      <h1>Guess the Number Game</h1>
+      <p>Guess a number between 1 and 20:</p>
+      <input type="number" class="guess" id="guessField" min="1" max="20" />
+      <input type="submit" value="Submit guess" class="guess" />
+      <p class="message">Make a guess...</p>
+      <p class="score">Score: <span id="score">0</span></p>
+      <p class="number">Number: <span id="number">?</span></p>
+      <button class="nextNumber">Next number</button>
+      <button class="again">Play Again</button>
     </div>
-</body>
+
+    <script>
+      let secretNumber = Math.floor(Math.random() * 20) + 1;
+      let score = 0;
+      const scoreDisplay = document.getElementById("score");
+      const numberDisplay = document.getElementById("number");
+      const messageDisplay = document.querySelector(".message");
+      const guessInput = document.getElementById("guessField");
+      const submitButton = document.querySelector('input[type="submit"]');
+      const playAgainButton = document.querySelector(".again");
+      const nextNumberButton = document.querySelector(".nextNumber");
+
+      submitButton.addEventListener("click", function () {
+        const guess = Number(guessInput.value);
+
+        if (!guess) {
+          messageDisplay.textContent = "No number!";
+        } else if (guess === secretNumber) {
+          messageDisplay.textContent = "Correct number!";
+          numberDisplay.textContent = secretNumber;
+          numberDisplay.style.backgroundColor = "#60b347";
+          numberDisplay.style.width = "30rem";
+          score++;
+          scoreDisplay.textContent = score;
+        } else if (guess > secretNumber) {
+          if (score > 0) {
+            messageDisplay.textContent = "Too high!";
+            scoreDisplay.textContent = score;
+          } else {
+            messageDisplay.textContent = "You lost the game!";
+            scoreDisplay.textContent = 0;
+          }
+        } else if (guess < secretNumber) {
+          if (score > 0) {
+            messageDisplay.textContent = "Too low!";
+            scoreDisplay.textContent = score;
+          } else {
+            messageDisplay.textContent = "You lost the game!";
+            scoreDisplay.textContent = 0;
+          }
+        }
+      });
+
+      function resetGame() {
+        secretNumber = Math.floor(Math.random() * 20) + 1;
+        score = 0;
+        console.log(secretNumber);
+        numberDisplay.textContent = "?";
+        messageDisplay.textContent = "Make a guess...";
+        guessInput.value = "";
+
+        numberDisplay.style.backgroundColor = "#222";
+        numberDisplay.style.width = "15rem";
+      }
+      function nextNumber() {
+        secretNumber = Math.floor(Math.random() * 20) + 1;
+        console.log(secretNumber);
+        scoreDisplay.textContent = score;
+        numberDisplay.textContent = "?";
+        messageDisplay.textContent = "Make a guess...";
+        guessInput.value = "";
+
+        numberDisplay.style.backgroundColor = "#222";
+        numberDisplay.style.width = "15rem";
+      }
+
+      nextNumberButton.addEventListener("click", nextNumber);
+      playAgainButton.addEventListener("click", resetGame);
+    </script>
+  </body>
 </html>
