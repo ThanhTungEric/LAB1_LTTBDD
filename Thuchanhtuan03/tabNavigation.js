@@ -2,9 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Platform, Text, View, Image } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Text, View} from "react-native";
 
 import Bai1 from "./Screens/Bai1";
 import Bai2 from "./Screens/Bai2";

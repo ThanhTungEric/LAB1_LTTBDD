@@ -1,10 +1,7 @@
 import {
   View,
   Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
+  ImageBackground,
   StyleSheet,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
