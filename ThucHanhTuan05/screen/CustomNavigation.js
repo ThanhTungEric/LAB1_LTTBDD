@@ -11,7 +11,7 @@ const Bai1 = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="bai01"
+        name="Bai01"
         component={Bai01}
         options={{ headerShown: false }}
       />
@@ -24,7 +24,7 @@ const Bai2 = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="bai02"
+        name="Bai02"
         component={Bai02}
         options={{ headerShown: false }}
       />
@@ -37,7 +37,7 @@ const Bai3 = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="bai03"
+        name="Bai03"
         component={Bai03}
         options={{ headerShown: false }}
       />
@@ -50,7 +50,7 @@ const Bai4 = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="bai04"
+        name="Bai04"
         component={Bai04}
         options={{ headerShown: false }}
       />
