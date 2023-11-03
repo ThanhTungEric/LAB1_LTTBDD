@@ -4,6 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 export default function Description({ route, navigation }) {
     const { item } = route.params;
+    
     return (
         <View style={styles.container}>
             <View style={{ height: 400, width: "95%", backgroundColor: "#FDECEC", justifyContent: 'center', alignItems: "center", marginTop: 40, borderRadius: 5 }}>

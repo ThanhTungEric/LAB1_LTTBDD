@@ -4,8 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FristScren from './screens/FristScreen'
 import Home from './screens/Home'
 import Description from './screens/Description'
-const Stack = createNativeStackNavigator();
 
+const Stack = createNativeStackNavigator();
 export default function App() {
     return (
         <NavigationContainer>
