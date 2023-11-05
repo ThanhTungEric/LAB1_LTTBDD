@@ -21,7 +21,7 @@ export default function Home({ route, navigation }) {
                 setData(username1Data);
                 if (username1Data) {
                     const textArray = username1Data.text;
-                    onsole.log(textArray);
+                    console.log(textArray);
                     update = 0;
                 } else {
                     console.log("Không tìm thấy dữ liệu cho 'username1'");
