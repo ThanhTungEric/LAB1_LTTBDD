@@ -1,74 +1,149 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image, TextInput, Pressable, FlatList } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Image, TextInput, Pressable } from 'react-native';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 
 export default function UpdateandAdd({ navigation, route }) {
-    const { email, item, data, update } = route.params;
-    console.log(item)
-    const [toDoNew, setToDoNew] = useState(item ? item : '');
+  const [toDoNew, setToDoNew] = useState('');
+  const [userData, setUserData] = useState(route.params.data);
+  console.log(userData);
+  const [status, setStatus] = useState(false);
 
-    function addTextToUserById(userId, newText) {
-        fetch(`https://6544ab0b5a0b4b04436caf78.mockapi.io/api/ToDo/${userId}`, {
-          method: "PUT", 
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            text: [...data.text,newText],
-          }),
-        })
-          .then(response => response.json())
-          .then(updatedData => {
-            console.log("Dữ liệu đã được cập nhật:", updatedData);
-            update=1;
-          })
-          .catch(error => {
-            console.error("Đã xảy ra lỗi khi cập nhật dữ liệu:", error);
-          });
-      }      
-      const handleHome = () => {
-        navigation.navigate("Home", {email, data, update})
-      }
+  const handelAdd = () => {
+    fetch(`https://6544ab0b5a0b4b04436caf78.mockapi.io/api/ToDo/${userData[0].id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ text: [...userData[0].text, toDoNew] }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        setToDoNew('');
+        setStatus(true);
+        navigation.navigate("Home", { userData: [data] });
+      })
+      .catch(error => {
+        console.error('Error:', error.message);
+      });
+  };  
 
-    return (
-        <View style={styles.container}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 15, width: "100%" }}>
-                <View style={{ marginLeft: 30, flexDirection: "row", alignItems: "center" }}>
-                    <Image style={{ width: 50, height: 50 }} resizeMode="contain" source={require("../assets/avt.png")} />
-                    <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 18, fontWeight: "bold" }}>{email}</Text>
-                        <Text style={{ fontSize: 18 }}>Have a agrete day a head</Text>
-                    </View>
-                </View>
-                <Pressable onPress={() => { navigation.navigate("Home", { email }) }}>
-                    <AntDesign name="arrowleft" size={24} color="black" />
-                </Pressable>
-            </View>
-            <View style={{ marginTop: 20 }}>
-                <Text style={{ fontSize: 30, fontWeight: "bold" }}>{item ? "EDIT TO JOB" : "ADD TO JOB"}</Text>
-            </View>
-            <View style={{ width: '300px', height: '50px', borderColor: "#111", borderWidth: 1, borderRadius: 10, flexDirection: "row", alignItems: "center", marginTop: 30 }}>
-                <FontAwesome style={{ marginLeft: 20 }} name="sticky-note-o" size={24} color="green" />
-                <TextInput style={{ marginLeft: 10, width: "80%", height: "100%", fontSize: 20, outlineStyle: 'none' }} value={toDoNew} onChangeText={setToDoNew} placeholder="Enter your job" />
-            </View>
-            <Pressable onPress={addTextToUserById(data.id,toDoNew)} style={{ marginTop: 20, width: 200, height: 45, backgroundColor: "#00bdd5", borderRadius: 10, justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
-                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#fff" }}>FINISH</Text>
-                <AntDesign name="arrowright" size={24} color="#fff" />
-            </Pressable>
-            <Pressable onPress={()=>{navigation.navigate("Home", {email, data, update})}} style={{ marginTop: 20, width: 100, height: 45, backgroundColor: "#00bdd5", borderRadius: 10, justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
-                <Text style={{ fontSize: 18, fontWeight: "bold", color: "#fff" }}>HOME</Text>
-                <AntDesign name="arrowright" size={24} color="#fff" />
-            </Pressable>
-            <Image style={{ width: '200px', height: '200px' }} resizeMode="contain" source={require("../assets/image.png")} />
+  const handleHome = () => {
+    navigation.navigate("Home", { email, data, update });
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.userInfo}>
+          <Image style={styles.avatar} resizeMode="contain" source={require("../assets/avt.png")} />
+          <View style={styles.userInfoText}>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>{/* Add user name here */}</Text>
+            <Text style={{ fontSize: 18 }}>Have a great day ahead</Text>
+          </View>
         </View>
-    )
+        <Pressable onPress={() => { navigation.navigate("Home", { email }) }}>
+          <AntDesign name="arrowleft" size={24} color="black" />
+        </Pressable>
+      </View>
+
+      <View style={styles.heading}>
+        <Text style={{ fontSize: 30, fontWeight: "bold" }}>ADD TO JOB</Text>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <FontAwesome name="sticky-note-o" size={24} color="green" />
+        <TextInput
+          style={styles.input}
+          value={toDoNew}
+          onChangeText={setToDoNew}
+          placeholder="Enter your job"
+        />
+      </View>
+
+      <Pressable style={styles.button}>
+        <Text style={styles.buttonText}>FINISH</Text>
+        <AntDesign name="arrowright" size={24} color="#fff" />
+      </Pressable>
+
+      <Pressable onPress={handelAdd} style={styles.button}>
+        <Text style={styles.buttonText}>HOME</Text>
+        <AntDesign name="arrowright" size={24} color="#fff" />
+      </Pressable>
+
+      <Image style={styles.image} resizeMode="contain" source={require("../assets/image.png")} />
+    </View>
+  );
 }
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: "center",
-        justifyContent: "space-between"
-    },
-})
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 15,
+    marginTop: 50,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  userInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+  },
+  userInfoText: {
+    marginLeft: 10,
+  },
+  heading: {
+    marginTop: 20,
+  },
+  inputContainer: {
+    width: '300px',
+    height: '50px',
+    borderColor: "#111",
+    borderWidth: 1,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 30,
+  },
+  input: {
+    marginLeft: 10,
+    width: "80%",
+    height: 50,
+    fontSize: 20,
+    borderStyle: 'solid',
+  },
+  button: {
+    marginTop: 20,
+    width: 200,
+    height: 45,
+    backgroundColor: "#00bdd5",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  image: {
+    width: '200px',
+    height: '200px',
+  },
+});

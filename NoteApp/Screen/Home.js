@@ -8,6 +8,8 @@ import { Entypo } from '@expo/vector-icons';
 export default function Home({ route, navigation }) {
     const [search, setSearch] = useState('');
     const userData = route.params.userData;
+    const userName = route.params.userData[0].name;
+    console.log(userData);
     const todo = userData[0].text;
     return (
         <View style={styles.container}>
@@ -18,14 +20,14 @@ export default function Home({ route, navigation }) {
                 <View style={{ marginLeft: 30, flexDirection: "row", alignItems: "center" }}>
                     <Image style={{ width: 50, height: 50 }} resizeMode="contain" source={require("../assets/avt.png")} />
                     <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 18, fontWeight: "bold" }}>{userData[0].name}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: "bold" }}>name</Text>
                         <Text style={{ fontSize: 18 }}>Have a agrete day a head</Text>
                     </View>
                 </View>
             </View>
             <View style={{ marginTop: 30, width: '300px', height: '50px', borderColor: "#f0f0f0", borderWidth: 1, borderRadius: 10, flexDirection: "row", alignItems: "center", height: 50}}>
                 <AntDesign style={{ marginLeft: 10 }} name="search1" size={24} color="black" />
-                <TextInput style={{ outlineStyle: 'none', marginLeft: 10, width: "80%", height: "100%", fontSize: 20 }} value={search} onChangeText={text => setSearch(text)} placeholder="Search" />
+                <TextInput style={{marginLeft: 10, width: "80%", height: "100%", fontSize: 20 }} value={search} onChangeText={text => setSearch(text)} placeholder="Search" />
             </View>
             <View>
                 {todo.map((item, index) => (
@@ -36,7 +38,7 @@ export default function Home({ route, navigation }) {
                     </Pressable>
                 ))}
             </View>
-            <Pressable  style={{ marginTop: 15, backgroundColor: "#24c3d9", width: 60, height: 60, borderRadius: 50, justifyContent: "center", alignItems: "center", marginBottom: 20 }}>
+            <Pressable onPress={()=>{navigation.navigate("Add", {data: userData})}}  style={{ marginTop: 15, backgroundColor: "#24c3d9", width: 60, height: 60, borderRadius: 50, justifyContent: "center", alignItems: "center", marginBottom: 20 }}>
                 <Entypo name="plus" size={40} color="#fff" />
             </Pressable>
         </View>
