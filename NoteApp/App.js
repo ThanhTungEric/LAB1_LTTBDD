@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import GetStated from './Screen/GetStated';
 import Home from './Screen/Home'
 import UpdateandAdd from './Screen/UpdateandAdd';
+import Register from './Screen/Register';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,15 @@ export default function App() {
         <Stack.Screen name='GetStarted' component={GetStated} options={{headerShown: false}} />
         <Stack.Screen name='Home' component={Home} options={{headerShown: false}} />
         <Stack.Screen name='Add' component={UpdateandAdd} options={{headerShown: false}} />
+        <Stack.Screen name='Register' component={Register} options={{
+          headerStyle: {
+            backgroundColor: '#00bdd5',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
